@@ -1,104 +1,194 @@
-# Banco de dados Oficina
-Este repositório contém a definição de um banco de dados relacional para um sistema de gestão de oficinas mecânicas.
 
+# 🚗 Sistema de Gestão para Oficina Mecânica (Banco de Dados)
 
-# Sistema de Gestão para Oficina - Banco de Dados
+Este repositório contém a modelagem e implementação de um banco de dados relacional para um sistema de gestão de oficinas mecânicas.
 
-Este repositório contém a definição de um banco de dados relacional para um sistema de gestão de oficinas mecânicas. O banco de dados foi projetado para atender às principais necessidades administrativas e operacionais de uma oficina, incluindo o gerenciamento de clientes, veículos, serviços, ordens de serviço, fornecedores, peças utilizadas, pagamentos e equipes responsáveis.
+O objetivo é atender às principais necessidades administrativas e operacionais, incluindo o controle de clientes, veículos, ordens de serviço, peças, fornecedores, pagamentos e equipes.
 
-## 📋 Estrutura Geral
+🔗 **Repositório:**
+[https://github.com/felipetamiozzo/Banco-de-Dados-Oficina-SQL](https://github.com/felipetamiozzo/Banco-de-Dados-Oficina-SQL)
 
-### Principais Tabelas
+---
 
-O banco de dados é organizado em diversas tabelas que se relacionam entre si para garantir a integridade dos dados. Abaixo, uma visão geral das tabelas:
+## 📌 Funcionalidades
 
-1. **CLIENTE**
-   - Armazena informações sobre os clientes da oficina.
-   - Colunas principais:
-     - `idCLIENTE` (chave primária)
-     - `Nome`, `CPF`, `Telefone`, `E-mail`
+* Cadastro de clientes e veículos
+* Controle de ordens de serviço
+* Gestão de mecânicos e equipes
+* Registro de peças utilizadas
+* Controle de fornecedores
+* Gerenciamento de pagamentos
 
-2. **VEÍCULO**
-   - Registra os veículos dos clientes.
-   - Colunas principais:
-     - `idVEÍCULO` (chave primária composta)
-     - `Tipo de veículo`, `Marca`, `Modelo`, `Conserto/Revisão`
-   - Relacionamento:
-     - Relacionado à tabela `CLIENTE` via `CLIENTE_idCLIENTE`.
+---
 
-3. **Mecanicos**
-   - Gerencia os mecânicos da oficina.
-   - Colunas principais:
-     - `idMECANICOS` (chave primária)
-     - `Mecanico`, `Especialidade`, `Telefone`, `Endereço`
+## 🗄️ Estrutura do Banco de Dados
 
-4. **ORDEM DE SERVIÇO**
-   - Controla as ordens de serviço realizadas na oficina.
-   - Colunas principais:
-     - `idORDEM DE SERVIÇO` (chave primária composta)
-     - `Cliente`, `Veículo`, `Serviço a ser executado`, `Peças`, `Valor serviço`, `Status`, `Data de entrega`
-   - Relacionamento:
-     - Relacionado à tabela `VEÍCULO` via `id_CLIENTE`.
+O banco de dados é composto por tabelas relacionais com integridade garantida por chaves primárias e estrangeiras.
 
-5. **FORNECEDOR**
-   - Gerencia informações dos fornecedores.
-   - Colunas principais:
-     - `idFORNECEDOR` (chave primária)
-     - `Fornecedor`, `Contato fornecedor`, `Endereço`
+### 🧩 Principais Tabelas
 
-6. **PEÇAS UTILIZADAS**
-   - Registra as peças utilizadas nas ordens de serviço.
-   - Colunas principais:
-     - `id_FORNECEDOR` e `id_ORDEM DE SERVIÇO` (chave primária composta)
-   - Relacionamentos:
-     - Relacionado às tabelas `FORNECEDOR` e `ORDEM DE SERVIÇO`.
+#### 👤 CLIENTE
 
-7. **PAGAMENTO**
-   - Controla os pagamentos das ordens de serviço.
-   - Colunas principais:
-     - `idPAGAMENTO` (chave primária composta)
-     - `Valor`, `Forma de pagamento`, `Status`
-   - Relacionamentos:
-     - Relacionado à tabela `ORDEM DE SERVIÇO`.
+Armazena informações dos clientes.
 
-8. **EQUIPE RESPONSÁVEL**
-   - Define a equipe responsável por cada ordem de serviço.
-   - Colunas principais:
-     - `id_MECANICOS` e `id_ORDEM DE SERVIÇO` (chave primária composta)
-   - Relacionamentos:
-     - Relacionado às tabelas `Mecanicos` e `ORDEM DE SERVIÇO`.
+* `idCLIENTE` (PK)
+* `Nome`
+* `CPF`
+* `Telefone`
+* `Email`
 
-## 🚀 Configuração e Uso
+---
 
-### Pré-requisitos
+#### 🚘 VEICULO
 
-- **MySQL Server** instalado.
-- Um cliente SQL (ex: MySQL Workbench) para executar o script.
+Registra os veículos dos clientes.
 
-### Passo a Passo
+* `idVEICULO` (PK)
+* `Tipo`
+* `Marca`
+* `Modelo`
+* `TipoServico`
+* `CLIENTE_idCLIENTE` (FK)
+
+---
+
+#### 🔧 MECANICOS
+
+Cadastro dos mecânicos.
+
+* `idMECANICOS` (PK)
+* `Nome`
+* `Especialidade`
+* `Telefone`
+* `Endereco`
+
+---
+
+#### 📋 ORDEM_SERVICO
+
+Gerencia as ordens de serviço.
+
+* `idORDEM_SERVICO` (PK)
+* `Cliente`
+* `Veiculo`
+* `DescricaoServico`
+* `ValorServico`
+* `Status`
+* `DataEntrega`
+
+---
+
+#### 🏭 FORNECEDOR
+
+Dados dos fornecedores.
+
+* `idFORNECEDOR` (PK)
+* `Nome`
+* `Contato`
+* `Endereco`
+
+---
+
+#### 🔩 PECAS_UTILIZADAS
+
+Relaciona peças com ordens de serviço.
+
+* `id_FORNECEDOR` (FK)
+* `id_ORDEM_SERVICO` (FK)
+
+---
+
+#### 💳 PAGAMENTO
+
+Controle de pagamentos.
+
+* `idPAGAMENTO` (PK)
+* `Valor`
+* `FormaPagamento`
+* `Status`
+* `id_ORDEM_SERVICO` (FK)
+
+---
+
+#### 👥 EQUIPE_RESPONSAVEL
+
+Define os mecânicos responsáveis por cada ordem.
+
+* `id_MECANICOS` (FK)
+* `id_ORDEM_SERVICO` (FK)
+
+---
+
+## 🔗 Relacionamentos
+
+* Um **cliente** pode possuir vários veículos
+* Um **veículo** pode ter várias ordens de serviço
+* Uma **ordem de serviço** pode ter:
+
+  * várias peças
+  * vários mecânicos
+  * um pagamento associado
+* Fornecedores estão ligados às peças utilizadas
+
+---
+
+## ⚙️ Como Utilizar
+
+### ✅ Pré-requisitos
+
+* MySQL Server
+* MySQL Workbench (ou outro cliente SQL)
+
+---
+
+### 🚀 Instalação
 
 1. Clone o repositório:
-   ```bash
-   git clone https://github.com/seu-usuario/seu-repositorio.git
-   ```
-2. Importe o arquivo `script.sql` para o seu cliente SQL.
-3. Execute o script no banco de dados:
-   ```sql
-   source path/to/script.sql;
-   ```
 
-4. Configure sua aplicação para usar este banco de dados conforme necessário.
+```bash
+git clone https://github.com/felipetamiozzo/Banco-de-Dados-Oficina-SQL.git
+```
 
-## 📄 Relacionamentos
+2. Abra o MySQL Workbench (ou outro cliente)
 
-- O banco de dados utiliza chaves primárias e estrangeiras para manter a integridade referencial.
-- Os índices otimizam a busca e o relacionamento entre tabelas.
+3. Execute o script SQL:
 
-### Diagrama Entidade-Relacionamento
+```sql
+source caminho/para/script.sql;
+```
 
-Você pode visualizar o modelo lógico diretamente no MySQL Workbench ou utilizando ferramentas para gerar diagramas ER.
+4. Pronto! O banco estará configurado.
+
+---
+
+## 📊 Diagrama ER
+
+Você pode visualizar o modelo:
+
+* No **MySQL Workbench**
+* Ou utilizando ferramentas de modelagem de banco (ex: dbdiagram.io)
+
+---
+
+## 🧠 Boas Práticas Aplicadas
+
+* Normalização do banco de dados
+* Uso de chaves primárias e estrangeiras
+* Integridade referencial
+* Organização modular das entidades
+
+---
 
 ## 📄 Licença
 
-Este projeto está licenciado sob a [Licença MIT](LICENSE). Você pode utilizá-lo, modificá-lo e redistribuí-lo.
+Este projeto está sob a licença MIT.
+Sinta-se livre para usar, modificar e contribuir.
+
+---
+
+## 🤝 Contribuição
+
+Contribuições são bem-vindas!
+Sinta-se à vontade para abrir issues ou pull requests.
+
 
